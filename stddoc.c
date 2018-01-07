@@ -1,3 +1,6 @@
+/// ## Project page
+/// - https://github.com/r-lyeh/stddoc.c
+///
 /// ## About
 /// - _stddoc.c_ is a tiny documentation generator for 60 programming languages.
 /// - This page sample was auto-generated from the code comments found in `stddoc.c` file.
