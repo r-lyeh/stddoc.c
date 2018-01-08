@@ -1,15 +1,14 @@
-## stddoc.c
+# stddoc.c
 - _stddoc.c_ is a tiny documentation generator for 60 programming languages.
 - Check auto-generated [sample page here](https://rawgit.com/r-lyeh/stddoc.c/master/stddoc.c.html)
 
-## How does it work?
+# How does it work?
 - Markdeep code comments are extracted from stdin and printed into stdout as a HTML file.
 
-## Usage
+# Usage
 - `stddoc < source.code > documentation.html`
 
-## Supported languages
-
+# Supported languages
 Language                | `/// comment`      | `--- comment` | `### comment`
 ------------------------|:-------------------|:--------------|:-------------------
 ActionScript            | Yes                |               |
@@ -26,6 +25,7 @@ C++                     | Yes                |               |
 ChaiScript              | Yes                |               |
 Cobra                   |                    |               | Yes
 D                       | Yes                |               |
+Dao                     |                    |               | Yes
 Eiffel                  |                    | Yes           |
 Euphoria                |                    | Yes           |
 GameMonkey              | Yes                |               |
@@ -40,7 +40,6 @@ Jx9                     | Yes                |               |
 Kotlin                  | Yes                |               |
 Lua                     |                    | Yes           |
 Maple                   |                    |               | Yes
-Maple                   |                    |               | Yes
 Neko                    | Yes                |               |
 Object Pascal (Delphi)  | Yes                |               |
 Objective-C             | Yes                |               |
@@ -49,7 +48,6 @@ Pawn                    | Yes                |               |
 Perl                    |                    |               | Yes
 Perl6                   |                    |               | Yes
 PHP                     | Yes                |               | Yes
-PL/SQL                  |                    | Yes           |
 PowerShell              |                    |               | Yes
 PSL                     |                    | Yes           |
 Python                  |                    |               | Yes
@@ -61,6 +59,7 @@ SASS                    | Yes                |               |
 Scala                   | Yes                |               |
 Seed7                   |                    |               | Yes
 SGML                    |                    | Yes           |
+SGScript                | Yes                |               |
 SPARK                   |                    | Yes           |
 SQL                     |                    | Yes           |
 Squirrel                | Yes                |               |
@@ -73,10 +72,10 @@ VHDL                    |                    | Yes           |
 Wren                    | Yes                |               |
 Xojo                    | Yes                |               |
 
-## Changelog
+# Changelog
 - 2018/01/07 (v1.0.0):  Initial version
 
-## License
+# License
 - Unlicensed (~Public Domain).
 - Using API doc style created by [Aras Pranckevičius](https://github.com/aras-p).
 - Using Markdeep by [Morgan McGuire](https://casual-effects.com/markdeep/).
