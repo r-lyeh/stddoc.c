@@ -1,4 +1,4 @@
-﻿/// # Project page
+/// # Project page
 /// - https://github.com/r-lyeh/stddoc.c
 ///
 /// # About
@@ -113,8 +113,12 @@ static void stddoc( FILE *in, FILE *out ) {
 }
 
 #ifndef STDDOC_HEADER_ONLY
-int main() {
-    stddoc( stdin, stdout );
+int main( int c, char **v ) {
+    if( c == 1 ) {
+        return stddoc( stdin, stdout ), 0;
+    } else {
+        return printf("Usage:\t%s < input.source > output.html\n", v[0]);
+    }
 }
 #endif
 
