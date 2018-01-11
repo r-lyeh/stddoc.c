@@ -7,6 +7,7 @@
 
 # Usage
 - `stddoc < source.code > documentation.html`
+- `type *.code | stddoc > documentation.html`
 
 # Supported languages
 Language                | `/// comment`      | `--- comment` | `### comment`
