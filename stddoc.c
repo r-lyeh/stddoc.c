@@ -93,6 +93,9 @@ static void stddoc( FILE *in, FILE *out ) {
     fprintf(out, "%s\n", "<meta charset='utf-8' emacsmode='-*- markdown -*-'>");
     fprintf(out, "%s\n", "<link rel='stylesheet' href='https://casual-effects.com/markdeep/latest/apidoc.css?'>");
 
+    fprintf(out, "%s\n", "<style>.backtick{overflow-x: auto;}</style>");
+    fprintf(out, "%s\n", "<style>.longTOC{overflow-x: hidden;}</style>");
+
     for( int fsm_S = 0, fsm_D = 0, fsm_H = 0; !feof(in); ) {
         int chr = getc(in);
         if( fsm_S > 3 || fsm_D > 3 || fsm_H > 3 ) {
@@ -108,7 +111,7 @@ static void stddoc( FILE *in, FILE *out ) {
         else fsm_S = fsm_D = fsm_H = 0;
     }
 
-    fprintf(out, "%s\n", "<script>markdeepOptions={tocStyle:'medium'};</script>"); // tocStyle{auto, none, short, medium, long}
+    fprintf(out, "%s\n", "<script>markdeepOptions={tocStyle:'long'};</script>"); // tocStyle{auto, none, short, medium, long}
     fprintf(out, "%s\n", "<!-- Markdeep: --><script src='https://casual-effects.com/markdeep/latest/markdeep.min.js?'></script>");
 }
 
