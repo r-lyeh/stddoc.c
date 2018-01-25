@@ -73,9 +73,6 @@ VHDL                    |                    | Yes           |
 Wren                    | Yes                |               |
 Xojo                    | Yes                |               |
 
-# Changelog
-- 2018/01/07 (v1.0.0):  Initial version
-
 # License
 - Unlicensed (~Public Domain).
 - Using API doc style created by [Aras Pranckevičius](https://github.com/aras-p).

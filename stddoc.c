@@ -1,3 +1,4 @@
+//////////////////
 /// # Project page
 /// - https://github.com/r-lyeh/stddoc.c
 ///
@@ -10,10 +11,11 @@
 ///
 /// # Usage
 /// - `stddoc < source.code > documentation.html`
+/// - `type source*.code | stddoc`
 ///
 /// # Changelog
-/// 2018/01/07
-/// :  Initial version (_v1.0.0_)
+/// - 2018.1 (*v1.0.1*): CSS overflow fixes, `///<lang\n...\n///>` quoting, `///! message warning`, help screen.
+/// - 2018.1 (*v1.0.0*): Initial version.
 ///
 /// # License
 /// - stddoc.c by rlyeh, unlicensed (~public domain).
@@ -87,33 +89,38 @@
 /// Xojo                    | Yes                |               |
 
 #pragma once
-#include <stdio.h>
 
+/// # Using stddoc as library
+/// - Just include following snippet in your code:
+///<C++
+#include <stdio.h>  // stddoc.c (v1.0.1)
+#include <stdlib.h> // - rlyeh, public domain
+#include <string.h>
 static void stddoc( FILE *in, FILE *out ) {
     fprintf(out, "%s\n", "<meta charset='utf-8' emacsmode='-*- markdown -*-'>");
     fprintf(out, "%s\n", "<link rel='stylesheet' href='https://casual-effects.com/markdeep/latest/apidoc.css?'>");
-
-    fprintf(out, "%s\n", "<style>.backtick{overflow-x: auto;}</style>");
-    fprintf(out, "%s\n", "<style>.longTOC{overflow-x: hidden;}</style>");
-
-    for( int fsm_S = 0, fsm_D = 0, fsm_H = 0; !feof(in); ) {
-        int chr = getc(in);
-        if( fsm_S > 3 || fsm_D > 3 || fsm_H > 3 ) {
-            putc(chr, out);
-            if( chr != '\r' && chr != '\n' ) continue;
+    fprintf(out, "%s\n", "<style>.backtick, .tilde {overflow-x: auto;} .longTOC {overflow-x: hidden;}</style>");
+    struct { int on, prev; } stack[256] = {0}, *quote = stack;
+    for( char *buffer = (char *)malloc(16384); buffer; buffer = (free(buffer), 0))
+    for( int line = 1; fgets( buffer, 16383, in ) && !feof(in) ; ++line ) {
+        const char *tag = strstr(buffer, "//""/");
+        tag = tag ? tag : strstr(buffer, "##""#");
+        tag = tag ? tag : strstr(buffer, "--""-");
+        char next = tag ? *(tag+=3) : 0;
+        int markdeep = next == ' ' || next == '\r' || next == '\n', forgot_quote_end = markdeep && ( quote > stack );
+        if( next == '!' ) fprintf( stderr, "Warning: (Line %d) %s", line, tag );         // warning comment
+        if( next == '>' || forgot_quote_end ) if( quote > stack     ) { --quote, ++tag; if( quote  == stack ) fprintf( out, "%s\n", "~~~\n</script>"); }
+        if( next == '<'                     ) if( quote < stack+255 ) { ++quote, ++tag; fprintf( out, "%s", quote-1 == stack ? "<script type='preformatted'>\n~~~" : "(...)"); }
+        if( quote == stack+1 || markdeep ) {
+            tag = tag ? tag : buffer;
+            fprintf( out, "%s", tag + (tag[0] == ' ') );
         }
-        /**/ if( fsm_S <= 2 && chr == '/' && !fsm_D && !fsm_H ) fsm_S++;
-        else if( fsm_S == 3 && chr == ' ' && !fsm_D && !fsm_H ) fsm_S++;
-        else if( fsm_D <= 2 && chr == '-' && !fsm_S && !fsm_H ) fsm_D++;
-        else if( fsm_D == 3 && chr == ' ' && !fsm_S && !fsm_H ) fsm_D++;
-        else if( fsm_H <= 2 && chr == '#' && !fsm_S && !fsm_D ) fsm_H++;
-        else if( fsm_H == 3 && chr == ' ' && !fsm_S && !fsm_D ) fsm_H++;
-        else fsm_S = fsm_D = fsm_H = 0;
     }
-
-    fprintf(out, "%s\n", "<script>markdeepOptions={tocStyle:'long'};</script>"); // tocStyle{auto, none, short, medium, long}
+    while( quote > stack ) { --quote; fprintf( out, "%s\n", "~~~\n</script>" ); }
+    fprintf(out, "%s\n", "<script>markdeepOptions={tocStyle:'long'};</script>");
     fprintf(out, "%s\n", "<!-- Markdeep: --><script src='https://casual-effects.com/markdeep/latest/markdeep.min.js?'></script>");
 }
+///>
 
 #ifndef STDDOC_HEADER_ONLY
 int main( int c, char **v ) {
