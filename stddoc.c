@@ -14,6 +14,7 @@
 /// - `type source*.code | stddoc`
 ///
 /// # Changelog
+/// - 2020.1 (*v1.0.2*): Fix showcase example bein incorrectly rendered with latest markdeep.
 /// - 2018.1 (*v1.0.1*): CSS overflow fixes, `///<lang\n...\n///>` quoting, `///! message warning`, help screen.
 /// - 2018.1 (*v1.0.0*): Initial version.
 ///
@@ -109,16 +110,16 @@ static void stddoc( FILE *in, FILE *out ) {
         char next = tag ? *(tag+=3) : 0;
         int markdeep = next == ' ' || next == '\r' || next == '\n', forgot_quote_end = markdeep && ( quote > stack );
         if( next == '!' ) fprintf( stderr, "Warning: (Line %d) %s", line, tag );         // warning comment
-        if( next == '>' || forgot_quote_end ) if( quote > stack     ) { --quote, ++tag; if( quote  == stack ) fprintf( out, "%s\n", "~~~\n</script>"); }
-        if( next == '<'                     ) if( quote < stack+255 ) { ++quote, ++tag; fprintf( out, "%s", quote-1 == stack ? "<script type='preformatted'>\n~~~" : "(...)"); }
+        if( next == '>' || forgot_quote_end ) if( quote > stack     ) { --quote, ++tag; if( quote  == stack ) fprintf( out, "%s\n", "~""~~\n</script>"); }
+        if( next == '<'                     ) if( quote < stack+255 ) { ++quote, ++tag; fprintf( out, "%s", quote-1 == stack ? "<script type='preformatted'>\n~""~~" : "(...)"); }
         if( quote == stack+1 || markdeep ) {
             tag = tag ? tag : buffer;
             fprintf( out, "%s", tag + (tag[0] == ' ') );
         }
     }
-    while( quote > stack ) { --quote; fprintf( out, "%s\n", "~~~\n</script>" ); }
-    fprintf(out, "%s\n", "<script>markdeepOptions={tocStyle:'long'};</script>");
-    fprintf(out, "%s\n", "<!-- Markdeep: --><script src='https://casual-effects.com/markdeep/latest/markdeep.min.js?'></script>");
+    while( quote > stack ) { --quote; fprintf( out, "%s\n", "~""~~\n</script>" ); }
+    fprintf(out, "%s\n", "<s""cript>m""arkdeepOptions={tocStyle:'long'};</script>");
+    fprintf(out, "%s\n", "<!-- M""arkdeep: --><s""cript src='https://casual-effects.com/m""arkdeep/latest/markdeep.min.js?'></script>");
 }
 ///>
 
