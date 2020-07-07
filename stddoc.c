@@ -99,7 +99,7 @@
 #include <string.h>
 static void stddoc( FILE *in, FILE *out ) {
     fprintf(out, "%s\n", "<meta charset='utf-8' emacsmode='-*- markdown -*-'>");
-    fprintf(out, "%s\n", "<link rel='stylesheet' href='https://casual-effects.com/markdeep/latest/apidoc.css?'>");
+    fprintf(out, "%s\n", "<link rel='stylesheet' href='https://casual-effects.com/m""arkdeep/latest/apidoc.css?'>");
     fprintf(out, "%s\n", "<style>.backtick, .tilde {overflow-x: auto;} .longTOC {overflow-x: hidden;}</style>");
     struct { int on, prev; } stack[256] = {0}, *quote = stack;
     for( char *buffer = (char *)malloc(16384); buffer; buffer = (free(buffer), 0))
@@ -119,7 +119,7 @@ static void stddoc( FILE *in, FILE *out ) {
     }
     while( quote > stack ) { --quote; fprintf( out, "%s\n", "~""~~\n</script>" ); }
     fprintf(out, "%s\n", "<s""cript>m""arkdeepOptions={tocStyle:'long'};</script>");
-    fprintf(out, "%s\n", "<!-- M""arkdeep: --><s""cript src='https://casual-effects.com/m""arkdeep/latest/markdeep.min.js?'></script>");
+    fprintf(out, "%s\n", "<!-- M""arkdeep: --><s""cript src='https://morgan3d.github.io/m""arkdeep/latest/markdeep.min.js?'></script>");
 }
 ///>
 
